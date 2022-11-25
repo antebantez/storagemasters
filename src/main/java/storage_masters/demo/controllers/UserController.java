@@ -3,6 +3,7 @@ package storage_masters.demo.controllers;
 
 import lombok.Getter;
 import lombok.Setter;
+import storage_masters.demo.exceptions.UserAlreadyExistsException;
 import storage_masters.demo.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +26,31 @@ public class UserController {
 
   @PostMapping("/register")
   public ResponseEntity<String> register(
-      @RequestBody RegisterUser registerUser) {
-    var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword());
+      @RequestBody RegisterUser registerUser) throws UserAlreadyExistsException {
+    var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword(), registerUser.isAdmin());
     return ResponseEntity.ok(user.getName());
 
   }
 
-  @PostMapping("/login")
+ /* @PostMapping("/login")
   public ResponseEntity<String> login(
       @RequestBody LoginUser loginUser) {
     var token = userService.login(loginUser.getUsername(), loginUser.getPassword());
-    return ResponseEntity.ok(token);
-  }
+    return ResponseEntity.ok("Inloggad");
+  }*/
 
   @Getter
   @Setter
   public static class RegisterUser {
     private String username;
     private String password;
+    private boolean admin;
   }
 
-  @Getter
+  /*@Getter
   @Setter
   public static class LoginUser {
     private String username;
     private String password;
-  }
+  }*/
 }

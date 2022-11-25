@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import storage_masters.demo.security.UserObject;
 
 @Entity
 @Table(name = "files")
@@ -38,10 +39,11 @@ public class UserFile {
   @Lob
   private byte[] data;
 
-  public UserFile(String name, String type, byte[] data) {
+  public UserFile(String name, String type, byte[] data, User user) {
     this.name = name;
     this.type = type;
     this.data = data;
+    this.user = user;
     
   }
   
