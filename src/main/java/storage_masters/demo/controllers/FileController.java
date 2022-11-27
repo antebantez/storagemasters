@@ -71,6 +71,8 @@ public class FileController {
               .path(dbFile.getId())
               .toUriString();
 
+      System.out.println(fileDownloadUri);
+
       return new ResponseFile(
               dbFile.getName(),
               fileDownloadUri,
@@ -116,14 +118,14 @@ public class FileController {
     return ResponseEntity.status(HttpStatus.OK).body(files);
   }*/
 
-  /*@GetMapping("/files/{id}")
+  @GetMapping("/files/{id}")
   public ResponseEntity<byte[]> getFile(@PathVariable String id) {
     UserFile fileDB = fileService.getFile(id);
 
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
         .body(fileDB.getData());
-  }*/
+  }
 
 
 }
