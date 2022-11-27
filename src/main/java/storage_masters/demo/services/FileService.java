@@ -1,6 +1,7 @@
 package storage_masters.demo.services;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,9 @@ public class FileService {
   public Stream<UserFile> getMyFiles(UserObject user) {
     return fileRepository.findFileByUser(user.getUser()).stream();
   }
-  
+
+
+  public void deleteFile(String id) {
+    fileRepository.deleteFileById(id);
+  }
 }

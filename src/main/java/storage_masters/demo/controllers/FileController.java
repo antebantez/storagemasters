@@ -47,16 +47,8 @@ public class FileController {
 
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file, @AuthenticationPrincipal UserObject user) throws IOException {
-////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-      //Skickar filen och användaren till fileService
-
-
-
-
+    //Skickar filen och användaren till fileService
     String message = "";
     try {
       fileService.store(file, user);
@@ -67,7 +59,6 @@ public class FileController {
       message = "Could not upload the file: " + file.getOriginalFilename() + "!";
       return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
     }
-    //////////////////////////////////////////////////////////////////////////////////////////
 
   }
 
@@ -90,8 +81,23 @@ public class FileController {
     return ResponseEntity.status(HttpStatus.OK).body(files);
   }
 
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String id, @AuthenticationPrincipal UserObject user) throws IOException {
+    var realUser = user.getUser().getUserId();
+    var fileUser = fileService.getFile(id).getUser().getUserId();
 
-  @GetMapping("/files")
+    if(fileUser.toString().equals(realUser.toString())){
+      fileService.deleteFile(id);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("File deleted successfully"));
+    }
+    else {
+      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("You don't have permission to delete this file"));
+    }
+
+  }
+
+
+  /*@GetMapping("/files")
   public ResponseEntity<List<ResponseFile>> getListFiles() {
     List<ResponseFile> files = fileService.getAllFiles().map(dbFile -> {
       String fileDownloadUri = ServletUriComponentsBuilder
@@ -108,14 +114,16 @@ public class FileController {
     }).collect(Collectors.toList());
 
     return ResponseEntity.status(HttpStatus.OK).body(files);
-  }
+  }*/
 
-  @GetMapping("/files/{id}")
+  /*@GetMapping("/files/{id}")
   public ResponseEntity<byte[]> getFile(@PathVariable String id) {
     UserFile fileDB = fileService.getFile(id);
 
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
         .body(fileDB.getData());
-  }
+  }*/
+
+
 }

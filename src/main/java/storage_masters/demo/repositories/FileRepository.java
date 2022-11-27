@@ -8,12 +8,15 @@ import storage_masters.demo.data.UserFile;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Transactional
 @Repository
 public interface FileRepository extends JpaRepository<UserFile, String> {
 
     Optional<UserFile> findFileByUser(User user);
-  
+
+
+    UserFile findFileById(String id);
+
+    Optional<UserFile> deleteFileById(String id);
 }
