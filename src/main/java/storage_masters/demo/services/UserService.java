@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
     this.userRepository = userRepository;
   }
 
-  public User registerUser(String username, String password, boolean admin)
+  public User registerUser(String username, String password)
           throws UserAlreadyExistsException
   {
     var existing = userRepository.findByName(username);
@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
       throw new UserAlreadyExistsException();
     }
 
-    var user = new User(username, passwordEncoder.encode(password), admin);
+    var user = new User(username, passwordEncoder.encode(password));
     log.info("Successfully registered user with id '" + user.getUserId() + "'.");
     return userRepository.save(user);
 
@@ -52,25 +52,4 @@ public class UserService implements UserDetailsService {
     return new UserObject(user);
   }
 
-
-  /*public String login(String username, String password) {
-    var userOpt = getByUserName(username);
-    if (userOpt.isEmpty()) {
-      return null;
-
-    }
-    var user = userOpt.get();
-    if (!user.getPassword().equals(password)) {
-      return null;
-    }
-    var token = UUID.randomUUID().toString();
-    //tokens.put(token, username);
-    return token;
-  }*/
-
-
-
-  /*public Optional<User> getByUserName(String username) {
-    return userRepository.findByName(username);
-  }*/
 }

@@ -2,13 +2,10 @@ package storage_masters.demo.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import storage_masters.demo.data.User;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
 
 @Getter
 public class UserObject implements UserDetails{
@@ -19,14 +16,10 @@ public class UserObject implements UserDetails{
         this.user = user;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        if (user.isAdmin())
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
-        return authorities;
+        return null;
     }
 
     @Override

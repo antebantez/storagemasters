@@ -10,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseFile {
+  private String fileId;
   private String name;
-  private String url;
+  private String PostmanUrl;
   private String type;
   private long size;
 

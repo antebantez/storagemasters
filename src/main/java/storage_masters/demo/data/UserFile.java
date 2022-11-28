@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import storage_masters.demo.security.UserObject;
 
 @Entity
 @Table(name = "files")

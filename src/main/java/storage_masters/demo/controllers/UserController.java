@@ -27,30 +27,18 @@ public class UserController {
   @PostMapping("/register")
   public ResponseEntity<String> register(
       @RequestBody RegisterUser registerUser) throws UserAlreadyExistsException {
-    var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword(), registerUser.isAdmin());
+    var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword());
     return ResponseEntity.ok(user.getName());
 
   }
 
- /* @PostMapping("/login")
-  public ResponseEntity<String> login(
-      @RequestBody LoginUser loginUser) {
-    var token = userService.login(loginUser.getUsername(), loginUser.getPassword());
-    return ResponseEntity.ok("Inloggad");
-  }*/
 
   @Getter
   @Setter
   public static class RegisterUser {
     private String username;
     private String password;
-    private boolean admin;
   }
 
-  /*@Getter
-  @Setter
-  public static class LoginUser {
-    private String username;
-    private String password;
-  }*/
+
 }

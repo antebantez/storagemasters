@@ -27,14 +27,13 @@ public class User implements UserDetails {
 
   private String password;
 
-  private boolean admin;
 
 
-  public User(String username, String password, boolean admin) {
+  public User(String username, String password) {
     this.userId = UUID.randomUUID();
     this.name = username;
     this.password = password;
-    this.admin = admin;
+
   }
 
 
