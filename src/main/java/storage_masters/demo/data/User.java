@@ -13,11 +13,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.UUID;
 
+
+/**
+ *  - This is the User-entity that is going to be saved in the database
+ */
 @Entity(name = "file_users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User implements UserDetails {
 
   @Id

@@ -16,6 +16,14 @@ import storage_masters.demo.services.UserService;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     *
+     * @param http
+     * @param userService
+     * @param authManager
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,

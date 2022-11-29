@@ -33,15 +33,17 @@ import storage_masters.demo.services.UserService;
 public class FileController {
 
   @Autowired
-  private final UserService userService;
-
-  @Autowired
   private FileService fileService;
 
-  public FileController(UserService userService) {
-    this.userService = userService;
-  }
 
+  /**
+   *  Endpoint to upload a file to the database
+   *
+   * @param file - An object of the type MultipartFile.
+   * @param user - An userObject of the currently logged-in user, taken in from the Bearer token.
+   * @return - An ResponseEntity<ResponseMessage> with a response message to the user
+   * @throws IOException
+   */
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestBody MultipartFile file, @AuthenticationPrincipal UserObject user) throws IOException {
 
@@ -59,6 +61,12 @@ public class FileController {
 
   }
 
+  /**
+   *  Endpoint to get all files of a logged-in user
+   *
+   * @param user - An userObject of the currently logged-in user, taken in from the Bearer token.
+   * @return - A List of all the files owned by the logged-in user
+   */
   @GetMapping("/myfiles")
   public ResponseEntity<List<ResponseFile>> myFiles(@AuthenticationPrincipal UserObject user) {
     List<ResponseFile> files = fileService.getMyFiles(user).map(dbFile -> {
@@ -80,16 +88,41 @@ public class FileController {
 
     return ResponseEntity.status(HttpStatus.OK).body(files);
   }
-  
-  @GetMapping("/files/{id}")
-  public ResponseEntity<byte[]> getFile(@PathVariable String id) {
-    UserFile fileDB = fileService.getFile(id);
 
-    return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-            .body(fileDB.getData());
+  /**
+   *  Endpoint to get one specific file from the database
+   *
+   * @param id - Takes the id of a file as a PathVariable
+   * @param user - An userObject of the currently logged-in user, taken in from the Bearer token.
+   *             Used to check if the file belongs to the logged-in user
+   * @return - Returns a ByteArray of the selected file
+   */
+  @GetMapping("/files/{id}")
+  public ResponseEntity<byte[]> getFile(@PathVariable String id, @AuthenticationPrincipal UserObject user) {
+    UserFile fileDB = fileService.getFile(id);
+    var realUser = user.getUser().getUserId();
+    var fileUser = fileService.getFile(id).getUser().getUserId();
+
+    if(fileUser.toString().equals(realUser.toString())){
+      return ResponseEntity.ok()
+              .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+              .body(fileDB.getData());
+    }
+    else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
   }
 
+  /**
+   *  Endpoint to delete a file
+   *
+   * @param id - Takes the id of a file as a PathVariable
+   * @param user - An userObject of the currently logged-in user, taken in from the Bearer token.
+   *    *             Used to check if the file belongs to the logged-in user
+   * @return  Returns a responsemessage, whether the deletion went through of not
+   * @throws IOException
+   */
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String id, @AuthenticationPrincipal UserObject user) throws IOException {
     var realUser = user.getUser().getUserId();

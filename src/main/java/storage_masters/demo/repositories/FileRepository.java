@@ -10,15 +10,15 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * In the repository we can make our own custom queries
+ */
 @Transactional
 @Repository
 public interface FileRepository extends JpaRepository<UserFile, String> {
-    List<UserFile> findFileByUser(User user);
 
     List<UserFile> findAllFilesByUser(User user);
-
-
-    UserFile findFileById(String id);
 
     Optional<UserFile> deleteFileById(String id);
 }

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ *  - A Representation of the file that a user uploads
+ */
 @Getter
 @Setter
 @NoArgsConstructor

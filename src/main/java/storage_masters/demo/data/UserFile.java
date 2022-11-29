@@ -20,7 +20,14 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ *  - This is the File entity of the
+ * @Id - Randomly generated UUID-Value
+ * @Lob - Makes us able to save binary data to the database
+ * @ManyToOne - Makes a connection to the user that uploads the file
+ */
 public class UserFile {
+
 
   @Id
   @GeneratedValue(generator = "uuid")

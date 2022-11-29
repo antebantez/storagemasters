@@ -22,12 +22,20 @@ public class UserService implements UserDetailsService {
   private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
+
   @Autowired
   public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
     this.passwordEncoder = passwordEncoder;
     this.userRepository = userRepository;
   }
 
+  /**
+   *
+   * @param username - A username of the typ String
+   * @param password - A password of the type String, this is encoded before it is saved in the database
+   * @return - Returns a User object after we save it in the database
+   * @throws UserAlreadyExistsException
+   */
   public User registerUser(String username, String password)
           throws UserAlreadyExistsException
   {
@@ -43,7 +51,12 @@ public class UserService implements UserDetailsService {
 
   }
 
-
+  /**
+   *
+   * @param username - A username of the type String
+   * @return - Returns a user of the type User
+   * @throws UsernameNotFoundException
+   */
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     var user = userRepository
             .findByName(username)
