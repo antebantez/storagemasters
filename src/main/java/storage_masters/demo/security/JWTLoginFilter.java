@@ -21,6 +21,13 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
+    /**
+     *
+     * @param request The request to be handled
+     * @param response - The response to be handled
+     * @return - Returns a UsernamePasswordAuthenticationFilter object
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException
@@ -33,6 +40,15 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         return authenticationManager.authenticate(authentication);
     }
 
+    /**
+     *
+     * @param request - The request to be handled
+     * @param response - The response to be handled
+     * @param chain -  The filterchain that loch
+     * @param authResult - This is an Authentication object
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
@@ -41,6 +57,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             throws IOException, ServletException
     {
         try {
+            //JWT token is created
             var algorithm = Algorithm.HMAC256("test");
             var token = JWT.create()
                     .withIssuer("auth0")

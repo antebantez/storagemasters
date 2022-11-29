@@ -7,13 +7,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import storage_masters.demo.data.User;
 import storage_masters.demo.exceptions.UserAlreadyExistsException;
 import storage_masters.demo.repositories.UserRepository;
 import storage_masters.demo.security.UserObject;
-
-import java.util.Optional;
 
 @Service("customUserServiceDetails")
 @Slf4j

@@ -7,6 +7,10 @@ import storage_masters.demo.data.User;
 import java.util.Collection;
 
 
+/**
+ * This class implements a bunch of methods from Spring security's UsersDetails-interface
+ * This one connects the user from the database with the subject of the token when it is verified
+ */
 @Getter
 public class UserObject implements UserDetails{
 

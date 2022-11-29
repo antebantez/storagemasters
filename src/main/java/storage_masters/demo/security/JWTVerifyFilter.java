@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * - This filter will run every time we send a request and look for a token
+ */
 public class
 JWTVerifyFilter extends OncePerRequestFilter {
 
@@ -24,13 +27,21 @@ JWTVerifyFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+    /**
+     *
+     * @param request - The request to be handled
+     * @param response - The response to be handled
+     * @param filterChain - The filterChain object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException
     {
-
+        //Checks for token in the header
         var authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer")) {
             filterChain.doFilter(request, response);
@@ -43,7 +54,10 @@ JWTVerifyFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
+        /**
+         * If there is a token, we decode it and
+         * connect the user based on the username from the subject of the token
+         */
         try {
             var algorithm = Algorithm.HMAC256("test");
             var verifier = JWT.require(algorithm)
@@ -59,7 +73,10 @@ JWTVerifyFilter extends OncePerRequestFilter {
                     user.getPassword(),
                     user.getAuthorities()
             );
-
+            /**
+             * Sets the user in context, so we can access
+             * our userObject based on the token that we send in
+             */
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);

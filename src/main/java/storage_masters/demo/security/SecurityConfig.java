@@ -3,33 +3,28 @@ package storage_masters.demo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
 import storage_masters.demo.services.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    /**
-     *
-     * @param http
-     * @param userService
-     * @param authManager
-     * @return
-     * @throws Exception
-     */
+
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,
             UserService userService,
             AuthenticationManager authManager
     ) throws Exception {
+        /**
+         * The endpoints for Register and login is permitted to all users,
+         * But any other requests needs to be authenticated with token because of safety
+         */
         return http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

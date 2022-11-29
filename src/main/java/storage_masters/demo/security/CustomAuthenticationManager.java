@@ -24,6 +24,12 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         this.userService = userService;
     }
 
+    /**
+     *
+     * @param authentication - the authentication request object
+     * @return - Returns UsernamePasswordAuthenticationToken object
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final UserDetails userDetail = userService.loadUserByUsername(authentication.getName());

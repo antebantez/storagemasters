@@ -7,7 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class PasswordConfig {
-
+    /**
+     *
+     * @return This Bean returns the password encoder, so we don't have to do all the imports
+     *  directly in the code and just do a dependency injection instead.
+     */
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(10);

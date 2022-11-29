@@ -1,19 +1,15 @@
 package storage_masters.demo.services;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import storage_masters.demo.data.User;
 import storage_masters.demo.data.UserFile;
 import storage_masters.demo.repositories.FileRepository;
-import storage_masters.demo.repositories.UserRepository;
 import storage_masters.demo.security.UserObject;
+
+import java.io.IOException;
+import java.util.stream.Stream;
 
 @Service
 public class FileService {
@@ -25,7 +21,6 @@ public class FileService {
 
 
   /**
-   *
    *
    * @param file - An object of the type MultipartFile.
    * @param user A userObject that is put as the foreign key of the file
