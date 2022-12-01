@@ -17,7 +17,7 @@ public class DemoApplication {
 	 * user ( User object ),
 	 * När jag kallar på min upload endpoint så tar jag in ett userObject samt
 	 * en MultipartFile som finns inbyggd i Spring-web,
-	 * Därefter skickar jag vidare den till FileServicen där man med en kontruktor sätter entitetens
+	 * Därefter skickar jag vidare den till FileServicen där man med en konstruktor sätter entitetens
 	 * värde med hjälp av MultipartFile/Spring-webs funktioner såsom
 	 * //
 	 * file.getOriginalFileName()

@@ -38,8 +38,15 @@ public class UserController {
   @PostMapping("/register")
   public ResponseEntity<String> register(
       @RequestBody RegisterUser registerUser) throws UserAlreadyExistsException {
-    var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword());
-    return ResponseEntity.ok(user.getName());
+
+    if(registerUser.getUsername() == null || registerUser.getPassword() == null){
+      return ResponseEntity.badRequest().body("Please enter a 'username' and a 'password' in the body!!!");
+    }
+    else{
+      var user = userService.registerUser(registerUser.getUsername(), registerUser.getPassword());
+      return ResponseEntity.ok("User created with the username: " + user.getName());
+    }
+
   }
 
   /**

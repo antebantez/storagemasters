@@ -42,15 +42,22 @@ public class FileController {
 
     //Skickar filen och användaren till fileService
     String message = "";
-    try {
-      fileService.store(file, user);
-
-      message = "Uploaded the file successfully: " + file.getOriginalFilename();
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-    } catch (Exception e) {
-      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+    if(file.isEmpty()){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+    else{
+      try {
+        fileService.store(file, user);
+
+        message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+      } catch (Exception e) {
+        message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+      }
+    }
+
+
 
   }
 
@@ -79,7 +86,10 @@ public class FileController {
               dbFile.getData().length);
     }).collect(Collectors.toList());
 
-    return ResponseEntity.status(HttpStatus.OK).body(files);
+    if(files.isEmpty()){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    else return ResponseEntity.status(HttpStatus.OK).body(files);
   }
 
   /**
@@ -95,6 +105,8 @@ public class FileController {
     UserFile fileDB = fileService.getFile(id);
     var realUser = user.getUser().getUserId();
     var fileUser = fileService.getFile(id).getUser().getUserId();
+
+
 
     if(fileUser.toString().equals(realUser.toString())){
       return ResponseEntity.ok()

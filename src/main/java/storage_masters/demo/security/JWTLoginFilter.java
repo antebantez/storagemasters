@@ -35,6 +35,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         var username = request.getHeader("username");
         var password = request.getHeader("password");
 
+
         var authentication = new UsernamePasswordAuthenticationToken(username, password);
 
         return authenticationManager.authenticate(authentication);
@@ -66,6 +67,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
             response.addHeader("Access-Control-Expose-Headers", "Authorization");
             response.addHeader("Authorization", "Bearer " + token);
+
         } catch (JWTCreationException exception){
             exception.printStackTrace();
         }
